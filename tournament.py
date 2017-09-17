@@ -8,6 +8,7 @@ import psycopg2
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
     return psycopg2.connect("dbname=tournament")
+   
 
 
 def deleteMatches():
@@ -23,7 +24,7 @@ def deletePlayers():
     """Remove all the player records from the database."""
     db = connect()
     c = db.cursor()
-    c.execute("DELETE FROM players")
+    c.execute("TRUNCATE players CASCADE")
     db.commit()
     db.close()
 
