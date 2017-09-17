@@ -4,13 +4,10 @@
 
 import psycopg2
 
-
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
     return psycopg2.connect("dbname=tournament")
    
-
-
 def deleteMatches():
     """Remove all the match records from the database."""
     db = connect()
@@ -19,7 +16,6 @@ def deleteMatches():
     db.commit()
     db.close()
 
-
 def deletePlayers():
     """Remove all the player records from the database."""
     db = connect()
@@ -27,7 +23,6 @@ def deletePlayers():
     c.execute("TRUNCATE players CASCADE")
     db.commit()
     db.close()
-
 
 def countPlayers():
     """Returns the number of players currently registered."""
@@ -41,10 +36,8 @@ def countPlayers():
 
 def registerPlayer(name):
     """Adds a player to the tournament database.
-  
     The database assigns a unique serial id number for the player. (This
     should be handled by your SQL database schema, not in your Python code.)
-  
     Args:
       name: the player's full name (need not be unique).
     """
@@ -54,7 +47,6 @@ def registerPlayer(name):
     c.execute(query, (name,))
     db.commit()
     db.close()
-
 
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
@@ -83,7 +75,6 @@ def playerStandings():
     db.close()
 
     return players
-
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
@@ -127,7 +118,3 @@ def swissPairings():
         pairs.append(pair)
 
     return pairs
-
-
-
-
