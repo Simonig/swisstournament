@@ -17,7 +17,7 @@ DROP TABLE if exists players;
 
 CREATE TABLE players(id serial primary key, name text UNIQUE);
 CREATE TABLE  results(
-	id serial,
+	id serial primary key,
 	winner_id int references players(id),
 	looser_id int references players(id));
 

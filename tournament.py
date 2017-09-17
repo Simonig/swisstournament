@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# 
 # tournament.py -- implementation of a Swiss-system tournament
 #
 
@@ -15,7 +14,7 @@ def deleteMatches():
     """Remove all the match records from the database."""
     db = connect()
     c = db.cursor()
-    c.execute("DELETE FROM results")
+    c.execute("TRUNCATE results")
     db.commit()
     db.close()
 
@@ -39,12 +38,10 @@ def countPlayers():
 
     return count[0][0]
 
-
-
 def registerPlayer(name):
     """Adds a player to the tournament database.
   
-    The database assigns a unique serial id number for the player.  (This
+    The database assigns a unique serial id number for the player. (This
     should be handled by your SQL database schema, not in your Python code.)
   
     Args:
@@ -52,7 +49,8 @@ def registerPlayer(name):
     """
     db = connect()
     c = db.cursor()
-    c.execute("INSERT INTO players(name) VALUES(%s)", (name,))
+    query = "INSERT INTO players(name) VALUES(%s)"
+    c.execute(query, (name,))
     db.commit()
     db.close()
 
@@ -73,17 +71,13 @@ def playerStandings():
 
     db = connect()
     c = db.cursor()
-    query = """ 
-    SELECT * FROM scores
-    
-    """
+    query = "SELECT * FROM scores"
 
     c.execute(query)
     players = []
 
     for row in c.fetchall():
         players.append(row)
-
 
     db.close()
 
@@ -100,13 +94,11 @@ def reportMatch(winner, loser):
 
     db = connect()
     c = db.cursor()
-
-    c.execute("INSERT INTO results(winner_id, looser_id) values(%s, %s)", (winner, loser,))
+    query = "INSERT INTO results(winner_id, looser_id) values(%s, %s)"
+    params = (winner, loser,)
+    c.execute(query, params)
     db.commit()
     db.close()
-
-
- 
  
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
@@ -125,33 +117,15 @@ def swissPairings():
     """
 
     pairs = []
-
-
     players = playerStandings()
-
 
     while len(players) > 0:
         p1 = players.pop(0)
         p2 = players.pop(0)
         pair = (p1[0], p1[1], p2[0], p2[1])
-
         pairs.append(pair)
 
     return pairs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
