@@ -10,10 +10,6 @@ CREATE DATABASE tournament;
 
 \connect tournament
 
-DROP TABLE if exists results;
-DROP TABLE if exists players;
-
-
 
 CREATE TABLE players(id serial primary key, name text UNIQUE);
 CREATE TABLE  results(
